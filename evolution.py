@@ -8,11 +8,28 @@ class evo:
         self.mutRate = 0.001
         self.poolSize = 10
         self.currentpool = 0
+        self.epoch = 20
+        self.gen = 0
+        self.n = 0
 
     def evolve(self):
-        gen = 0
-        pool = chromogenerator()
-        currentpool = pool
+        self.gen = 0
+        pool = self.chromogenerator()
+        self.currentpool = self.decodechromo()
+
+    def reproducir(self, chromoA, chromoB):
+        cut = random.randrange(0, 10)
+        chromoA = chromoA.chromo_data[:cut]+chromoB.chromo_data[cut:]
+        chromoB = chromoB.chromo_data[:cut]+chromoA.chromo_data[cut:]
+        return chromoA, chromoB
+
+    def mutate(self, chromo):
+        mut = random.randrange(0, 10)
+        chromo_data = chromoA.chromo_data
+        if chromo_data[mut] == "0":
+            chromo_data = chromo_data[:mut] + '1' + chromo_data[mut+1:]
+        else:
+            chromo_data = chromo_data[:mut] + '0' + chromo_data[mut+1:]
 
     def chromogenerator(self):
         chromo = []
@@ -27,27 +44,42 @@ class evo:
         return chromo
 
     def decodechromo(self):
+        chromosomas = []
         for c in self.currentpool:
-            print(c)
+
             power = c[:6]
             angle = c[6:]
+            power = int(power, 2)
+            angle = int(angle, 2)/20.38
+            chromosomas.append(chromosome(c, power, angle))
 
-            print("power :" + power + " " + str(int(power, 2)))
-            print("angle : " + angle + "  " + str(int(angle, 2)/20.38))
+        return chromosomas
+
+    def get_score(xmax, chromo):
+        return chromo.get_score(xmax)
+
+    def play_chromo(self):
+        #print(self.currentpool[self.n].power, self.currentpool[self.n].angle)
+        chromo = self.currentpool[self.n]
+
+        return chromo.power, chromo.angle
+
+    def setXmax(self):
+        print(self.currentpool[self.n].score)
+        se
+        self.n += 1
+        if self.n == self.poolSize:
+            self.n = 0
 
 
 class chromosome:
-    def __init__(power, angle):
+    def __init__(self, chromo_data, power, angle):
         self.xmax = 0
         self.score = 0
         self.power = power
         self.angle = angle
+        self.chromo_data = chromo_data
 
-    def get_score(xmax):
-        score = abs(700-xmax)
-        return score
-
-
-e = evo()
-e.chromogenerator()
-e.decodechromo()
+    def set_score(xmax):
+        pass
+        self.score = xmax

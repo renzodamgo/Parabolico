@@ -1,6 +1,6 @@
 import pygame
 import math
-
+import evolution
 # pygame.init()
 
 win = pygame.display.set_mode((960, 540))
@@ -9,6 +9,8 @@ parkbg = pygame.image.load('./source/southpark_bg.png')
 kenny = pygame.image.load('./source/kenny.png')
 kenny = pygame.transform.scale(kenny, (64, 74))
 pygame.display.set_caption("Tanks")
+
+n = 0
 
 
 class ball(object):
@@ -40,7 +42,7 @@ def redrawWindow():
     win.fill((64, 64, 64))
     win.blit(parkbg, (0, 0))
     golfBall.draw(win)
-    pygame.draw.line(win, (255, 255, 255), line[0], line[1])
+    #pygame.draw.line(win, (255, 255, 255), line[0], line[1])
     win.blit(tank, (120, 420))
     win.blit(kenny, (700, 410))
     pygame.display.update()
@@ -73,42 +75,52 @@ power = 0
 angle = 0
 shoot = False
 
+
+e = evolution.evo()
+e.evolve()
 run = True
 while run:
 
     if shoot:
         if golfBall.y < 460 - golfBall.radius:
             # time += 0.05
-            time += 0.2
+            time += 0.1
             po = ball.ballPath(x, y, power, angle, time)
             golfBall.x = po[0]
             golfBall.y = po[1]
         else:
+            xmax = golfBall.x
+            print(xmax)
+            e.setXmax()
             shoot = False
             golfBall.y = 435
             golfBall.x = 181
+            # if n < 9:
+            #     n += 1
+
     pos = pygame.mouse.get_pos()
-    line = [(golfBall.x, golfBall.y), pos]
+    # line = [(golfBall.x, golfBall.y), pos]
     redrawWindow()
 
     for event in pygame.event.get():
+
         if event.type == pygame.QUIT:
             run = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        # if event.type == pygame.MOUSEBUTTONDOWN:
 
-            if shoot == False:
-                shoot = True
-                x = golfBall.x
-                y = golfBall.y
-                time = 0
-                power = (math.sqrt(
-                    (line[1][1] - line[0][1])**2 + (line[1][0]-line[0][0])**2))/8
-
-                # print(power)
-                angle = findAngle(pos)
-                # angle = 1
-                print("power = ", power, " angle = ", angle)
-                #print(pos[0], pos[1])
-
+        if shoot == False:
+            shoot = True
+            x = golfBall.x
+            y = golfBall.y
+            time = 0
+            p, a = e.play_chromo()
+            # power = (math.sqrt(
+            #     (line[1][1] - line[0][1])**2 + (line[1][0]-line[0][0])**2))/8
+            power = p
+            # print(power)
+            # angle = findAngle(pos)
+            angle = a
+            print("power = ", power, " angle = ", angle)
+            # print(pos[0], pos[1])
 
 pygame.quit()
