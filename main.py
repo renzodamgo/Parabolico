@@ -28,7 +28,7 @@ class ball(object):
         vely = math.sin(angle) * power
 
         distX = velx * time
-        distY = (vely*time) + ((-9.81 * (time)**2)/2)
+        distY = (vely*time) + ((-4.9 * (time)**2)/2)
 
         newx = round(distX + startx)
         newy = round(starty-distY)
@@ -79,7 +79,7 @@ while run:
     if shoot:
         if golfBall.y < 460 - golfBall.radius:
             # time += 0.05
-            time += 0.05
+            time += 0.2
             po = ball.ballPath(x, y, power, angle, time)
             golfBall.x = po[0]
             golfBall.y = po[1]
@@ -103,7 +103,7 @@ while run:
                 time = 0
                 power = (math.sqrt(
                     (line[1][1] - line[0][1])**2 + (line[1][0]-line[0][0])**2))/8
-                # power = 50
+
                 # print(power)
                 angle = findAngle(pos)
                 # angle = 1
