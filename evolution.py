@@ -71,10 +71,13 @@ class evo:
         self.n += 1
         if self.n == self.poolSize:
             self.n = 0
+            self.gen += 1
+            self.next_gen()
 
     def next_gen(self):
+        for c in currentpool:
 
-        self.currentpool
+        self.currentpool = chromosons
 
 
 class chromosome:
