@@ -64,12 +64,17 @@ class evo:
 
         return chromo.power, chromo.angle
 
-    def setXmax(self):
-        print(self.currentpool[self.n].score)
-        self.currentpool[self.n].set_score(4)
+    def setXmax(self, xmax):
+        # print(self.currentpool[self.n].score)
+        self.currentpool[self.n].set_score(xmax)
+        print(self.n)
         self.n += 1
         if self.n == self.poolSize:
             self.n = 0
+
+    def next_gen(self):
+
+        self.currentpool
 
 
 class chromosome:
