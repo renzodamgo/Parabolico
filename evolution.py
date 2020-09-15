@@ -66,7 +66,7 @@ class evo:
 
     def setXmax(self):
         print(self.currentpool[self.n].score)
-        se
+        self.currentpool[self.n].set_score(4)
         self.n += 1
         if self.n == self.poolSize:
             self.n = 0
@@ -80,6 +80,6 @@ class chromosome:
         self.angle = angle
         self.chromo_data = chromo_data
 
-    def set_score(xmax):
-        pass
+    def set_score(self, xmax):
+
         self.score = xmax

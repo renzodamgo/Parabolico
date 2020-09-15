@@ -91,7 +91,7 @@ while run:
         else:
             xmax = golfBall.x
             print(xmax)
-            e.setXmax()
+            e.setXmax(xmax)
             shoot = False
             golfBall.y = 435
             golfBall.x = 181
