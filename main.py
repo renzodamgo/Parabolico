@@ -2,14 +2,15 @@ import pygame
 import math
 import evolution
 # pygame.init()
-
+pygame.font.init()
 win = pygame.display.set_mode((960, 540))
 tank = pygame.image.load('./source/tank.png')
 parkbg = pygame.image.load('./source/southpark_bg.png')
 kenny = pygame.image.load('./source/kenny.png')
 kenny = pygame.transform.scale(kenny, (64, 74))
-pygame.display.set_caption("Tanks")
-
+pygame.display.set_caption("Aryan Tanks")
+myfont = pygame.font.SysFont('Arial', 35)
+textsurface = myfont.render('Generación: ' + "0", True, (0, 0, 0))
 n = 0
 
 
@@ -41,6 +42,7 @@ def redrawWindow():
 
     win.fill((64, 64, 64))
     win.blit(parkbg, (0, 0))
+    win.blit(textsurface, (750, 10))
     golfBall.draw(win)
     #pygame.draw.line(win, (255, 255, 255), line[0], line[1])
     win.blit(tank, (120, 420))
@@ -80,11 +82,12 @@ e = evolution.evo()
 e.evolve()
 run = True
 while run:
+    textsurface = myfont.render('Generación: ' + str(e.gen), False, (0, 0, 0))
 
     if shoot:
         if golfBall.y < 460 - golfBall.radius:
             # time += 0.05
-            time += 0.1
+            time += 0.5
             po = ball.ballPath(x, y, power, angle, time)
             golfBall.x = po[0]
             golfBall.y = po[1]
@@ -108,19 +111,19 @@ while run:
             run = False
         # if event.type == pygame.MOUSEBUTTONDOWN:
 
-        if shoot == False:
-            shoot = True
-            x = golfBall.x
-            y = golfBall.y
-            time = 0
-            p, a = e.play_chromo()
-            # power = (math.sqrt(
-            #     (line[1][1] - line[0][1])**2 + (line[1][0]-line[0][0])**2))/8
-            power = p
-            # print(power)
-            # angle = findAngle(pos)
-            angle = a
-            print("power = ", power, " angle = ", angle)
-            # print(pos[0], pos[1])
+    if shoot == False:
+        shoot = True
+        x = golfBall.x
+        y = golfBall.y
+        time = 0
+        p, a = e.play_chromo()
+        # power = (math.sqrt(
+        #     (line[1][1] - line[0][1])**2 + (line[1][0]-line[0][0])**2))/8
+        power = p
+        # print(power)
+        # angle = findAngle(pos)
+        angle = a
+        print("power = ", power, " angle = ", angle)
+        # print(pos[0], pos[1])
 
 pygame.quit()
