@@ -8,7 +8,7 @@ tank = pygame.image.load('./source/tank.png')
 parkbg = pygame.image.load('./source/southpark_bg.png')
 kenny = pygame.image.load('./source/kenny.png')
 kenny = pygame.transform.scale(kenny, (64, 74))
-pygame.display.set_caption("Aryan Tanks")
+pygame.display.set_caption("Redes Neuranales")
 myfont = pygame.font.SysFont('arial', 35)
 #myfont = pygame.font.Font(pygame.font.get_default_font(), 35)
 
