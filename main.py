@@ -1,21 +1,35 @@
 import pygame
 import math
-import evolution
+import random
+import create_df 
+import time as t
+import Multicapa
 # pygame.init()
+
+#print(Multicapa.getpred([[39.0, 46.0]]))
 pygame.font.init()
 win = pygame.display.set_mode((960, 540))
 tank = pygame.image.load('./source/tank.png')
 parkbg = pygame.image.load('./source/southpark_bg.png')
 kenny = pygame.image.load('./source/kenny.png')
 kenny = pygame.transform.scale(kenny, (64, 74))
-pygame.display.set_caption("Aryan Tanks")
-myfont = pygame.font.SysFont('redes neuronales', 35)
+
+pygame.display.set_caption("Redes Neuronales")
+myfont = pygame.font.SysFont('arial', 35)
+
+frame_time = 0.0004
+
 #myfont = pygame.font.Font(pygame.font.get_default_font(), 35)
 
-textsurface = myfont.render('Generación: ' + "0", True, (0, 0, 0))
+textsurface = myfont.render('Prediccion: ' + "", True, (0, 0, 0))
 n = 0
 
-pygame.font.get_fonts()
+
+weight = Multicapa.weight
+bias = Multicapa.bias
+weight_2 = Multicapa.weight_2
+bias_2 = Multicapa.bias_2
+# pygame.font.get_fonts()
 
 
 class ball(object):
@@ -51,27 +65,10 @@ def redrawWindow():
     #pygame.draw.line(win, (255, 255, 255), line[0], line[1])
     win.blit(tank, (120, 420))
     win.blit(kenny, (700, 410))
-    win.blit(textsurface, (750, 10))
+    win.blit(textsurface, (650, 10))
     pygame.display.update()
 
 
-def findAngle(pos):
-    sX = golfBall.x
-    sY = golfBall.y
-    try:
-        angle = math.atan((sY-pos[1])/(sX - pos[0]))
-    except:
-        angle = math.pi/2
-
-    if pos[1] < sY and pos[0] > sX:
-        angle = abs(angle)
-    elif pos[1] < sY and pos[0] < sX:
-        angle = math.pi - angle
-    elif pos[1] > sY and pos[0] < sX:
-        angle = math.pi + abs(angle)
-    elif pos[1] > sY and pos[0] > sX:
-        angle = (math.pi*2) - angle
-    return angle
 
 
 golfBall = ball(181, 435, 5, (255, 255, 255))
@@ -81,15 +78,16 @@ time = 0
 power = 0
 angle = 0
 shoot = False
-
-
-e = evolution.evo()
-e.evolve()
+p = []
+a = []
+out = []
+count = 0
+pred = ""
 run = True
 while run:
-
-    textsurface = myfont.render('Generación: ' + str(e.gen), False, (0, 0, 0))
-
+    
+    textsurface = myfont.render('Prediccion: ' + pred, False, (0, 0, 0))
+    
     if shoot:
         if golfBall.y < 460 - golfBall.radius:
             # time += 0.05
@@ -99,37 +97,55 @@ while run:
             golfBall.y = po[1]
         else:
             xmax = golfBall.x
-            print(xmax)
-            e.setXmax(xmax)
+            if 650<xmax<750:
+                out.append(1)
+            else:
+                out.append(0)
+            count += 1
             shoot = False
             golfBall.y = 435
             golfBall.x = 181
+            if count == 1000:
+                break
             # if n < 9:
             #     n += 1
 
-    pos = pygame.mouse.get_pos()
+    # pos = pygame.mouse.get_pos()
     # line = [(golfBall.x, golfBall.y), pos]
+
+
     redrawWindow()
 
     for event in pygame.event.get():
 
         if event.type == pygame.QUIT:
             run = False
-        # if event.type == pygame.MOUSEBUTTONDOWN:
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            pass
 
     if shoot == False:
         shoot = True
+        
         x = golfBall.x
         y = golfBall.y
         time = 0
-        p, a = e.play_chromo()
-        # power = (math.sqrt(
-        #     (line[1][1] - line[0][1])**2 + (line[1][0]-line[0][0])**2))/8
-        power = p
-        # print(power)
-        # angle = findAngle(pos)
-        angle = a
-        print("power = ", power, " angle = ", angle)
-        # print(pos[0], pos[1])
 
+        power = random.randrange(0,60)
+        angle = random.randrange(0,90)
+        if Multicapa.getpred([[power, angle]],weight,bias,weight_2,bias_2):
+            pred = "Le dará"
+            frame_time = 0.04
+            
+        else:
+            pred = "No le dará"
+            frame_time = 0.0004
+        p.append(power)
+        a.append(angle)
+        
+        angle = angle *math.pi/180
+    t.sleep(frame_time)
+create_df.savedf(p,a,out)
+
+    
 pygame.quit()
