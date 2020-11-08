@@ -1,6 +1,5 @@
 import pygame
 import math
-import evolution
 import random
 import create_df 
 import time as t
@@ -129,16 +128,16 @@ while run:
         x = golfBall.x
         y = golfBall.y
         time = 0
-        while(True):
-            power = random.randrange(0,60)
-            angle = random.randrange(0,90)
-            if Multicapa.getpred([[power, angle]],weight,bias,weight_2,bias_2):
-                pred = "Le dará"
-                frame_time = 0.04
-                break
-            else:
-                pred = "No le dará"
-                frame_time = 0.0004
+
+        power = random.randrange(0,60)
+        angle = random.randrange(0,90)
+        if Multicapa.getpred([[power, angle]],weight,bias,weight_2,bias_2):
+            pred = "Le dará"
+            frame_time = 0.04
+            
+        else:
+            pred = "No le dará"
+            frame_time = 0.0004
         p.append(power)
         a.append(angle)
         

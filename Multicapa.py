@@ -163,8 +163,9 @@ print(acc / len(preds) * 100, "% instances correctly classified")
 def getpred(test_X,weight,bias,weight_2,bias_2):
     res = matrix_mul_bias(test_X, weight, bias)
     res_2 = matrix_mul_bias(res, weight_2, bias_2)
-    r= max(enumerate(res_2), key=lambda x:x[1])[0]
-    print(test_X,r)
-    return r
-
-# print(getpred([[39.0, 46.0]]))
+    for r in res_2:
+        p= max(enumerate(r), key=lambda x:x[1])[0]
+    #print(test_X,r)
+    return p
+# for i in test_X:
+#     print(getpred([i],weight,bias,weight_2,bias_2))
