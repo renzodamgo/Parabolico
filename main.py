@@ -13,10 +13,12 @@ tank = pygame.image.load('./source/tank.png')
 parkbg = pygame.image.load('./source/southpark_bg.png')
 kenny = pygame.image.load('./source/kenny.png')
 kenny = pygame.transform.scale(kenny, (64, 74))
+
 pygame.display.set_caption("Redes Neuronales")
 myfont = pygame.font.SysFont('arial', 35)
 
 frame_time = 0.0004
+
 #myfont = pygame.font.Font(pygame.font.get_default_font(), 35)
 
 textsurface = myfont.render('Prediccion: ' + "", True, (0, 0, 0))
