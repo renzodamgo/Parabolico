@@ -1,35 +1,12 @@
-import pygame
 import math
 import random
 import create_df 
 import time as t
-#import Multicapa
-# pygame.init()
 
-#print(Multicapa.getpred([[39.0, 46.0]]))
-pygame.font.init()
-win = pygame.display.set_mode((960, 540))
-tank = pygame.image.load('./source/tank.png')
-parkbg = pygame.image.load('./source/southpark_bg.png')
-kenny = pygame.image.load('./source/kenny.png')
-kenny = pygame.transform.scale(kenny, (64, 74))
-
-pygame.display.set_caption("Redes Neuronales")
-myfont = pygame.font.SysFont('arial', 35)
-
-frame_time = 0.0004
-
-#myfont = pygame.font.Font(pygame.font.get_default_font(), 35)
-
-# textsurface = myfont.render('Prediccion: ' + "", True, (0, 0, 0))
 n = 0
 
 
-# weight = Multicapa.weight
-# bias = Multicapa.bias
-# weight_2 = Multicapa.weight_2
-# bias_2 = Multicapa.bias_2
-# pygame.font.get_fonts()
+
 
 
 class ball(object):
@@ -39,9 +16,9 @@ class ball(object):
         self.radius = radius
         self.color = color
 
-    def draw(self, win):
-        pygame.draw.circle(win, (0, 0, 0), (self.x, self.y), self.radius)
-        pygame.draw.circle(win, self.color, (self.x, self.y), self.radius-1)
+    # def draw(self, win):
+    #     pygame.draw.circle(win, (0, 0, 0), (self.x, self.y), self.radius)
+    #     pygame.draw.circle(win, self.color, (self.x, self.y), self.radius-1)
 
     @staticmethod
     def ballPath(startx, starty, power, ang, time):
@@ -56,17 +33,7 @@ class ball(object):
         return(newx, newy)
 
 
-def redrawWindow():
 
-    win.fill((64, 64, 64))
-    win.blit(parkbg, (0, 0))
-
-    golfBall.draw(win)
-    #pygame.draw.line(win, (255, 255, 255), line[0], line[1])
-    win.blit(tank, (120, 420))
-    win.blit(kenny, (700, 410))
-    # win.blit(textsurface, (650, 10))
-    pygame.display.update()
 
 
 
@@ -86,7 +53,6 @@ pred = ""
 run = True
 while run:
     
-    # textsurface = myfont.render('Prediccion: ' + pred, False, (0, 0, 0))
     
     if shoot:
         if golfBall.y < 460 - golfBall.radius:
@@ -97,12 +63,21 @@ while run:
             golfBall.y = po[1]
         else:
             xmax = golfBall.x
+            delta = abs(700 - xmax)
+            if delta < 50 :
+                out.append(0)
+            elif delta < 200:
+                out.append(1)
+            elif  delta <500:
+                out.append(2)
+            else:
+                out.append(3)
             
             count += 1
             shoot = False
             golfBall.y = 435
             golfBall.x = 181
-            if count == 1000:
+            if count == 7000:
                 break
             # if n < 9:
             #     n += 1
@@ -111,32 +86,23 @@ while run:
     # line = [(golfBall.x, golfBall.y), pos]
 
 
-    redrawWindow()
-
-    for event in pygame.event.get():
-
-        if event.type == pygame.QUIT:
-            run = False
-
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            pass
-
+    
     if shoot == False:
         shoot = True
         
         x = golfBall.x
         y = golfBall.y
         time = 0
-        
+
         power = random.randrange(0,60)
         angle = random.randrange(0,90)
         
+            
         p.append(power)
         a.append(angle)
         
         angle = angle *math.pi/180
-    t.sleep(frame_time)
-
+    
+create_df.savedf(p,a,out)
 
     
-pygame.quit()

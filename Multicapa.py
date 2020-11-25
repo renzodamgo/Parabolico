@@ -11,20 +11,22 @@ import math
 random.seed(113)
 
 # Load dataset
-with open('data_clean.csv') as csvfile:
+with open('data.csv') as csvfile:
     csvreader = csv.reader(csvfile)
     next(csvreader, None) # skip header
     dataset = list(csvreader)
 
 # Change string value to numeric
+
 for row in dataset:
     
+    
+    
     row[:2] = [float(row[j]) for j in range(len(row))]
-
 # Split x and y (feature and target)
 random.shuffle(dataset)
-datatrain = dataset[:int(len(dataset) * 0.8)]
-datatest = dataset[int(len(dataset) * 0.8):]
+datatrain = dataset[:int(len(dataset) * 0.7)]
+datatest = dataset[int(len(dataset) * 0.3):]
 train_X = [data[:2] for data in datatrain]
 train_y = [data[2] for data in datatrain]
 test_X = [data[:2] for data in datatest]
@@ -71,7 +73,7 @@ def sigmoid(A, deriv=False):
 # Define parameter
 alfa = 0.005
 epoch = 1000
-neuron = [2, 5, 2] # number of neuron each layer
+neuron = [2, 5, 4] # number of neuron each layer
 
 # Initiate weight and bias with 0 value
 weight = [[0 for j in range(neuron[1])] for i in range(neuron[0])]
@@ -100,7 +102,8 @@ for e in range(epoch):
         X_2 = sigmoid(h_2)
         
         # Convert to One-hot target
-        target = [0, 0, 0]
+        #print("idx: ", idx)
+        target = [0, 0, 0, 0 ]
         target[int(train_y[idx])] = 1
 
         # Cost function, Square Root Eror
@@ -167,5 +170,3 @@ def getpred(test_X,weight,bias,weight_2,bias_2):
         p= max(enumerate(r), key=lambda x:x[1])[0]
     #print(test_X,r)
     return p
-# for i in test_X:
-#     print(getpred([i],weight,bias,weight_2,bias_2))

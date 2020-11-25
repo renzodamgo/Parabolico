@@ -3,7 +3,7 @@ import math
 import random
 import create_df 
 import time as t
-#import Multicapa
+
 # pygame.init()
 
 #print(Multicapa.getpred([[39.0, 46.0]]))
@@ -17,18 +17,14 @@ kenny = pygame.transform.scale(kenny, (64, 74))
 pygame.display.set_caption("Redes Neuronales")
 myfont = pygame.font.SysFont('arial', 35)
 
-frame_time = 0.0004
+frame_time = 0.004
 
 #myfont = pygame.font.Font(pygame.font.get_default_font(), 35)
 
-# textsurface = myfont.render('Prediccion: ' + "", True, (0, 0, 0))
 n = 0
 
 
-# weight = Multicapa.weight
-# bias = Multicapa.bias
-# weight_2 = Multicapa.weight_2
-# bias_2 = Multicapa.bias_2
+
 # pygame.font.get_fonts()
 
 
@@ -65,7 +61,7 @@ def redrawWindow():
     #pygame.draw.line(win, (255, 255, 255), line[0], line[1])
     win.blit(tank, (120, 420))
     win.blit(kenny, (700, 410))
-    # win.blit(textsurface, (650, 10))
+    
     pygame.display.update()
 
 
@@ -86,7 +82,7 @@ pred = ""
 run = True
 while run:
     
-    # textsurface = myfont.render('Prediccion: ' + pred, False, (0, 0, 0))
+    
     
     if shoot:
         if golfBall.y < 460 - golfBall.radius:
@@ -127,14 +123,17 @@ while run:
         x = golfBall.x
         y = golfBall.y
         time = 0
-        
+
         power = random.randrange(0,60)
         angle = random.randrange(0,90)
+        # power = 50.84673662094747
+        # angle = 0.696626848077909
         
         p.append(power)
         a.append(angle)
         
-        angle = angle *math.pi/180
+        # angle = angle *math.pi/180
+        print("power = ", power, " angle = ", angle)
     t.sleep(frame_time)
 
 
