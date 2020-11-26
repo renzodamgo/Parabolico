@@ -64,7 +64,7 @@ while run:
         else:
             xmax = golfBall.x
             delta = abs(700 - xmax)
-            if delta < 50 :
+            if delta < 150 :
                 out.append(0)
             elif delta < 200:
                 out.append(1)
@@ -77,7 +77,7 @@ while run:
             shoot = False
             golfBall.y = 435
             golfBall.x = 181
-            if count == 7000:
+            if count == 10000:
                 break
             # if n < 9:
             #     n += 1
@@ -96,7 +96,7 @@ while run:
 
         power = random.randrange(0,60)
         angle = random.randrange(0,90)
-        
+        print(power,angle)
             
         p.append(power)
         a.append(angle)

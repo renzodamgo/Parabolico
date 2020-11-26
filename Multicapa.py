@@ -11,7 +11,7 @@ import math
 random.seed(113)
 
 # Load dataset
-with open('data.csv') as csvfile:
+with open('data2.csv') as csvfile:
     csvreader = csv.reader(csvfile)
     next(csvreader, None) # skip header
     dataset = list(csvreader)
@@ -19,9 +19,6 @@ with open('data.csv') as csvfile:
 # Change string value to numeric
 
 for row in dataset:
-    
-    
-    
     row[:2] = [float(row[j]) for j in range(len(row))]
 # Split x and y (feature and target)
 random.shuffle(dataset)

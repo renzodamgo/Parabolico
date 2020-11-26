@@ -5,4 +5,4 @@ def savedf(p,a,out):
             'Angle': a,
             'out': out}
     df = pandas.DataFrame(data,columns=['Power','Angle','out'])
-    df.to_csv(r'data.csv', index = False)
+    df.to_csv(r'data2.csv', index = False)

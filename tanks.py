@@ -125,7 +125,7 @@ while run:
         time = 0
 
         power = random.randrange(0,60)
-        angle = random.randrange(0,90)
+        angle = random.randrange(0,365)
         # power = 50.84673662094747
         # angle = 0.696626848077909
         

@@ -3,7 +3,7 @@ import math
 import random
 import create_df 
 import time as t
-#import Multicapa
+import Multicapa
 # pygame.init()
 
 #print(Multicapa.getpred([[39.0, 46.0]]))
@@ -21,14 +21,14 @@ frame_time = 0.0004
 
 #myfont = pygame.font.Font(pygame.font.get_default_font(), 35)
 
-# textsurface = myfont.render('Prediccion: ' + "", True, (0, 0, 0))
+textsurface = myfont.render('Prediccion: ' + "", True, (0, 0, 0))
 n = 0
 
 
-# weight = Multicapa.weight
-# bias = Multicapa.bias
-# weight_2 = Multicapa.weight_2
-# bias_2 = Multicapa.bias_2
+weight = Multicapa.weight
+bias = Multicapa.bias
+weight_2 = Multicapa.weight_2
+bias_2 = Multicapa.bias_2
 # pygame.font.get_fonts()
 
 
@@ -65,7 +65,7 @@ def redrawWindow():
     #pygame.draw.line(win, (255, 255, 255), line[0], line[1])
     win.blit(tank, (120, 420))
     win.blit(kenny, (700, 410))
-    # win.blit(textsurface, (650, 10))
+    win.blit(textsurface, (650, 10))
     pygame.display.update()
 
 
@@ -86,7 +86,7 @@ pred = ""
 run = True
 while run:
     
-    # textsurface = myfont.render('Prediccion: ' + pred, False, (0, 0, 0))
+    textsurface = myfont.render('Prediccion: ' + pred, False, (0, 0, 0))
     
     if shoot:
         if golfBall.y < 460 - golfBall.radius:
@@ -97,7 +97,10 @@ while run:
             golfBall.y = po[1]
         else:
             xmax = golfBall.x
-            
+            if 650<xmax<750:
+                out.append(1)
+            else:
+                out.append(0)
             count += 1
             shoot = False
             golfBall.y = 435
@@ -127,16 +130,22 @@ while run:
         x = golfBall.x
         y = golfBall.y
         time = 0
-        
+
         power = random.randrange(0,60)
         angle = random.randrange(0,90)
-        
+        if Multicapa.getpred([[power, angle]],weight,bias,weight_2,bias_2):
+            pred = "Le dará"
+            frame_time = 0.04
+            
+        else:
+            pred = "No le dará"
+            frame_time = 0.0004
         p.append(power)
         a.append(angle)
         
         angle = angle *math.pi/180
     t.sleep(frame_time)
-
+create_df.savedf(p,a,out)
 
     
 pygame.quit()
